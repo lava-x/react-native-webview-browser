@@ -178,6 +178,7 @@ class Webbrowser extends BaseComponent {
           javaScriptEnabled={true}
           domStorageEnabled={true}
           decelerationRate="normal"
+          sharedCookiesEnabled={true}
           onNavigationStateChange={this.onNavigationStateChange}
           onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest}
           startInLoadingState={true}
