@@ -65,7 +65,8 @@ class Webbrowser extends BaseComponent {
       loading: true,
       scalesPageToFit: true,
       jsCode: this.props.jsCode,
-      cookie: this.props.cookie
+      cookie: this.props.cookie,
+      WebViewHeight: 0
     };
 
     this._bind(
@@ -90,6 +91,10 @@ class Webbrowser extends BaseComponent {
     this.setState({
       url: Utils.sanitizeUrl(nextProps.url)
     });
+  }
+
+  pxToDp(px) {
+    return px;
   }
 
   renderAddressBar() {
@@ -160,7 +165,8 @@ class Webbrowser extends BaseComponent {
           styles.container,
           this.props.backgroundColor && {
             backgroundColor: this.props.backgroundColor
-          }
+          },
+          { height: this.state.WebViewHeight }
         ]}
       >
         <View style={styles.header}>
@@ -172,6 +178,8 @@ class Webbrowser extends BaseComponent {
         </View>
         <WebView
           ref={WEBVIEW_REF}
+          useWebKit={true}
+          scrollEnabled={this.props.toBlockPage ? false : true}
           automaticallyAdjustContentInsets={false}
           style={styles.webView}
           source={{ uri: this.state.url }}
@@ -188,7 +196,27 @@ class Webbrowser extends BaseComponent {
             ? { injectedJavaScript: this.state.jsCode }
             : {})}
           {...this.props.webviewProps}
-          onLoadEnd={() => this.props.stopRefreshing(false)}
+          onLoadEnd={() => {
+            this.props.stopRefreshing(false);
+            this.props.toBlockPage &&
+              this.refs[WEBVIEW_REF].injectJavaScript(`
+            setTimeout(() => {
+              const height = document.documentElement.clientHeight;
+              document.querySelector('meta').setAttribute('name','viewport');
+              document.querySelector('meta').setAttribute('content','width=device-width,initial-scale=1');
+              window.ReactNativeWebView.postMessage(height);
+          }, 500);
+        `);
+          }}
+          onMessage={e => {
+            if (this.props.toBlockPage) {
+              let valToInt = parseInt(e.nativeEvent.data);
+              let calcHeight = this.pxToDp(valToInt);
+              if (calcHeight != this.state.WebViewHeight) {
+                this.setState({ WebViewHeight: calcHeight * 1.18 }, () => {});
+              }
+            }
+          }}
           // onMessage={event => {
           //   this.props.getWebviewPosition(event.nativeEvent.data);
           // }}
