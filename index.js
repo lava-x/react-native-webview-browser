@@ -4,7 +4,7 @@ import React from "react";
 
 import PropTypes from "prop-types";
 
-import { View, Linking } from "react-native";
+import { View, Linking, PixelRatio } from "react-native";
 import { WebView } from "react-native-webview";
 
 import BaseComponent from "./BaseComponent";
@@ -63,7 +63,7 @@ class Webbrowser extends BaseComponent {
       forwardButtonEnabled: false,
       homeButtonEnabled: true,
       loading: true,
-      scalesPageToFit: true,
+      // scalesPageToFit: true,
       jsCode: this.props.jsCode,
       cookie: this.props.cookie,
       WebViewHeight: 0
@@ -94,7 +94,7 @@ class Webbrowser extends BaseComponent {
   }
 
   pxToDp(px) {
-    return px;
+    return PixelRatio.roundToNearestPixel(px);
   }
 
   renderAddressBar() {
@@ -190,7 +190,8 @@ class Webbrowser extends BaseComponent {
           onNavigationStateChange={this.onNavigationStateChange}
           onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest}
           startInLoadingState={true}
-          scalesPageToFit={this.state.scalesPageToFit}
+          // scalesPageToFit is not usable when useWebKit is set to true
+          // scalesPageToFit={this.state.scalesPageToFit}
           onLoad={() => this.refs[WEBVIEW_REF].postMessage(this.state.cookie)}
           {...(this.state.jsCode
             ? { injectedJavaScript: this.state.jsCode }
@@ -198,22 +199,13 @@ class Webbrowser extends BaseComponent {
           {...this.props.webviewProps}
           onLoadEnd={() => {
             this.props.stopRefreshing(false);
-            this.props.toBlockPage &&
-              this.refs[WEBVIEW_REF].injectJavaScript(`
-            setTimeout(() => {
-              const height = document.documentElement.clientHeight;
-              document.querySelector('meta').setAttribute('name','viewport');
-              document.querySelector('meta').setAttribute('content','width=device-width,initial-scale=1');
-              window.ReactNativeWebView.postMessage(height);
-          }, 500);
-        `);
           }}
           onMessage={e => {
             if (this.props.toBlockPage) {
               let valToInt = parseInt(e.nativeEvent.data);
               let calcHeight = this.pxToDp(valToInt);
               if (calcHeight != this.state.WebViewHeight) {
-                this.setState({ WebViewHeight: calcHeight * 1.18 }, () => {});
+                this.setState({ WebViewHeight: calcHeight }, () => {});
               }
             }
           }}
@@ -267,8 +259,8 @@ class Webbrowser extends BaseComponent {
       forwardButtonEnabled: navState.canGoForward,
       currentUrl: navState.url,
       status: navState.title,
-      loading: navState.loading,
-      scalesPageToFit: true
+      loading: navState.loading
+      // scalesPageToFit: true,
     });
 
     this.props.onNavigationStateChange(navState);
