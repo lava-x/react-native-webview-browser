@@ -62,7 +62,7 @@ class Webbrowser extends BaseComponent {
       forwardButtonEnabled: false,
       homeButtonEnabled: true,
       loading: true,
-      // scalesPageToFit: true,
+      scalesPageToFit: true,
       jsCode: this.props.jsCode,
       cookie: this.props.cookie,
       WebViewHeight: 0
@@ -258,8 +258,8 @@ class Webbrowser extends BaseComponent {
       forwardButtonEnabled: navState.canGoForward,
       currentUrl: navState.url,
       status: navState.title,
-      loading: navState.loading
-      // scalesPageToFit: true,
+      loading: navState.loading,
+      scalesPageToFit: true
     });
 
     this.props.onNavigationStateChange(navState);
