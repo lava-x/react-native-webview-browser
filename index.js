@@ -4,8 +4,7 @@ import React from "react";
 
 import PropTypes from "prop-types";
 
-import { View, Linking, PixelRatio } from "react-native";
-import { WebView } from "react-native-webview";
+import { WebView, View, Linking, PixelRatio } from "react-native";
 
 import BaseComponent from "./BaseComponent";
 import Utils from "./Utils";
@@ -191,7 +190,7 @@ class Webbrowser extends BaseComponent {
           onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest}
           startInLoadingState={true}
           // scalesPageToFit is not usable when useWebKit is set to true
-          // scalesPageToFit={this.state.scalesPageToFit}
+          scalesPageToFit={this.state.scalesPageToFit}
           onLoad={() => this.refs[WEBVIEW_REF].postMessage(this.state.cookie)}
           {...(this.state.jsCode
             ? { injectedJavaScript: this.state.jsCode }
