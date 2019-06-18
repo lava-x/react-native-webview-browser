@@ -26,10 +26,10 @@ loose-envify@^1.0.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-react-native-webview@^5.8.1:
-  version "5.8.1"
-  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-5.8.1.tgz#6f5a83dec55bbc02700155b1a16a668870f14de0"
-  integrity sha512-b6pSvmjoiWtcz6YspggW02X+BRXJWuquHwkh37BRx1NMW1iwMZA31SnFQvTpPzWYYIb9WF/mRsy2nGtt9C6NIg==
+react-native-webview@5.9.0:
+  version "5.9.0"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-5.9.0.tgz#5a031da1534a4b52eb5cc6026ffd18696c9666eb"
+  integrity sha512-Hn+23SStSMCv4DhxWF93ctkA+9VWVXJ8niWIVoSHMdFKhqGEbbMCxzQWTgzY3IJTPrp9vBLyauYfvmZRgHNZYw==
   dependencies:
     escape-string-regexp "1.0.5"
     invariant "2.2.4"
