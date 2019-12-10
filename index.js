@@ -176,7 +176,6 @@ class Webbrowser extends BaseComponent {
         </View>
         <WebView
           ref={WEBVIEW_REF}
-          scrollEnabled={this.props.toBlockPage ? false : true}
           automaticallyAdjustContentInsets={false}
           style={styles.webView}
           source={{ uri: this.state.url }}
@@ -254,7 +253,7 @@ class Webbrowser extends BaseComponent {
       forwardButtonEnabled: navState.canGoForward,
       currentUrl: navState.url,
       status: navState.title,
-      loading: navState.loading,
+      loading: navState.loading
     });
 
     this.props.onNavigationStateChange(navState);
