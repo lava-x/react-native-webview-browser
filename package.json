@@ -9,6 +9,6 @@
   "author": "Jeffrey Chai <jeffrey@lavax.co>",
   "license": "MIT",
   "dependencies": {
-    "react-native-webview": "^7.5.1"
+    "react-native-webview": "https://github.com/lava-x/react-native-webview.git"
   }
 }
