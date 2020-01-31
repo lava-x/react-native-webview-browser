@@ -31,7 +31,6 @@ const propTypes = {
   onShouldStartLoadWithRequest: PropTypes.func,
   backButtonVisible: PropTypes.bool,
   onBackPress: PropTypes.func,
-  jsCode: PropTypes.string,
   cookie: PropTypes.string,
   webviewProps: PropTypes.object
 };
@@ -46,7 +45,6 @@ const defaultProps = {
   onNavigationStateChange: () => {},
   onShouldStartLoadWithRequest: () => true,
   backButtonVisible: true,
-  jsCode: null,
   cookie: "",
   webviewProps: {}
 };
@@ -62,9 +60,7 @@ class Webbrowser extends BaseComponent {
       forwardButtonEnabled: false,
       homeButtonEnabled: true,
       loading: true,
-      jsCode: this.props.jsCode,
       cookie: this.props.cookie,
-      WebViewHeight: 0
     };
 
     this._bind(
@@ -164,7 +160,6 @@ class Webbrowser extends BaseComponent {
           this.props.backgroundColor && {
             backgroundColor: this.props.backgroundColor
           },
-          { height: this.state.WebViewHeight }
         ]}
       >
         <View style={styles.header}>
@@ -187,25 +182,10 @@ class Webbrowser extends BaseComponent {
           onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest}
           startInLoadingState={true}
           onLoad={() => this.refs[WEBVIEW_REF].postMessage(this.state.cookie)}
-          {...(this.state.jsCode
-            ? { injectedJavaScript: this.state.jsCode }
-            : {})}
           {...this.props.webviewProps}
           onLoadEnd={() => {
             this.props.stopRefreshing(false);
           }}
-          onMessage={e => {
-            if (this.props.toBlockPage) {
-              let valToInt = parseInt(e.nativeEvent.data);
-              let calcHeight = this.pxToDp(valToInt);
-              if (calcHeight != this.state.WebViewHeight) {
-                this.setState({ WebViewHeight: calcHeight }, () => {});
-              }
-            }
-          }}
-          // onMessage={event => {
-          //   this.props.getWebviewPosition(event.nativeEvent.data);
-          // }}
         />
         {this.renderToolbar()}
       </View>
