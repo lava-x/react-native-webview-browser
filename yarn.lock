@@ -27,8 +27,8 @@ loose-envify@^1.0.0:
     js-tokens "^3.0.0 || ^4.0.0"
 
 "react-native-webview@https://github.com/lava-x/react-native-webview.git":
-  version "8.1.2"
-  resolved "https://github.com/lava-x/react-native-webview.git#b0a082a96e8abebe28edff4b9b9f8aaf8a37b32a"
+  version "10.10.2"
+  resolved "https://github.com/lava-x/react-native-webview.git#cd0a1109904154b136691853726676093ae2518e"
   dependencies:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
